@@ -1,0 +1,51 @@
+<section class="detail" aria-labelledby="pokemon-name">
+    <a class="back-link" routerLink="/catalog">Torna al catalogo</a>
+
+    @if (pokemonService.detail.isLoading()) {
+    <p class="status" role="status">Caricamento della carta...</p>
+    } @else if (pokemonService.detail.error()) {
+    <p class="status status--error" role="alert">Non è stato possibile caricare questa carta.</p>
+    } @else if (pokemonService.detail.value(); as pokemon) {
+    <article class="pokemon-detail">
+        <div class="pokemon-detail__visual">
+            <img [src]="pokemon.imageUrl" [alt]="formatName(pokemon.name)" width="260" height="260">
+            <span>#{{ pokemon.id.toString().padStart(3, '0') }}</span>
+        </div>
+        <div class="pokemon-detail__content">
+            <p class="eyebrow">Scheda Pokémon</p>
+            <h1 id="pokemon-name">{{ formatName(pokemon.name) }}</h1>
+            <div class="types" aria-label="Tipi">
+                @for (type of pokemon.types; track type) {
+                <span>{{ type }}</span>
+                }
+            </div>
+            <dl class="measures">
+                <div>
+                    <dt>Altezza</dt>
+                    <dd>{{ pokemon.height / 10 }} m</dd>
+                </div>
+                <div>
+                    <dt>Peso</dt>
+                    <dd>{{ pokemon.weight / 10 }} kg</dd>
+                </div>
+            </dl>
+            <button type="button" (click)="toggleOwned(pokemon)"
+                [class.is-owned]="inventoryService.ownedIds().has(pokemon.id)">
+                {{ inventoryService.ownedIds().has(pokemon.id) ? 'Rimuovi dalle possedute' : 'Aggiungi alle possedute'
+                }}
+            </button>
+        </div>
+    </article>
+
+    <section class="stats" aria-labelledby="stats-title">
+        <h2 id="stats-title">Statistiche base</h2>
+        @for (stat of pokemon.stats; track stat.name) {
+        <div class="stat">
+            <span>{{ formatName(stat.name) }}</span>
+            <strong>{{ stat.value }}</strong>
+            <div class="stat__bar" aria-hidden="true"><i [style.width.%]="stat.value / 1.8"></i></div>
+        </div>
+        }
+    </section>
+    }
+</section>

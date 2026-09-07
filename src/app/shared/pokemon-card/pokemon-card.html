@@ -1,0 +1,12 @@
+<article class="pokemon-card">
+    <a class="pokemon-card__link" [routerLink]="['/catalog', pokemon().id]"
+        [attr.aria-label]="'Vedi il dettaglio di ' + formatName(pokemon().name)">
+        <img [src]="pokemon().imageUrl" [alt]="formatName(pokemon().name)" width="120" height="120" loading="lazy">
+        <span class="pokemon-card__number">#{{ pokemon().id.toString().padStart(3, '0') }}</span>
+        <h2>{{ formatName(pokemon().name) }}</h2>
+    </a>
+    <button type="button" class="pokemon-card__action" [class.pokemon-card__action--owned]="isOwned()"
+        (click)="toggleOwned.emit()">
+        {{ isOwned() ? 'Rimuovi dalle possedute' : 'Aggiungi alle possedute' }}
+    </button>
+</article>

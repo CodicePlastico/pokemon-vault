@@ -1,0 +1,20 @@
+<section class="inventory" aria-labelledby="inventory-title">
+    <header>
+        <p class="eyebrow">Il tuo raccoglitore</p>
+        <h1 id="inventory-title">Carte possedute</h1>
+    </header>
+
+    @if (inventoryService.owned.isLoading()) {
+    <p class="status" role="status">Caricamento della collezione...</p>
+    } @else if (inventoryService.owned.error()) {
+    <p class="status status--error" role="alert">Non è stato possibile caricare la collezione.</p>
+    } @else if (inventoryService.owned.value().length === 0) {
+    <p class="empty">Nessuna carta posseduta ancora.</p>
+    } @else {
+    <div class="inventory__grid">
+        @for (card of inventoryService.owned.value(); track card.id) {
+        <app-pokemon-card [pokemon]="card" [isOwned]="true" (toggleOwned)="removeOwned(card.id)" />
+        }
+    </div>
+    }
+</section>

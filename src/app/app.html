@@ -1,0 +1,14 @@
+<header class="site-header">
+    <a class="brand" routerLink="/catalog" aria-label="Pokemon Vault, vai al catalogo">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span>Pokemon Vault</span>
+    </a>
+    <nav aria-label="Navigazione principale">
+        <a routerLink="/catalog" routerLinkActive="is-active">Catalogo</a>
+        <a routerLink="/inventory" routerLinkActive="is-active">Carte possedute</a>
+    </nav>
+</header>
+
+<main class="page-content">
+    <router-outlet />
+</main>
