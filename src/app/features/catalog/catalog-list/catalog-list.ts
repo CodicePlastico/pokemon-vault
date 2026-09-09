@@ -13,12 +13,14 @@ export default class CatalogList {
   protected readonly pokemonService = inject(PokemonService);
   protected readonly inventoryService = inject(InventoryService);
 
-  protected async toggleOwned(pokemon: PokemonSummary): Promise<void> {
-    if (this.inventoryService.ownedIds().has(pokemon.id)) {
-      await this.inventoryService.removeOwned(pokemon.id);
+  protected async toggleOwned(pokemon: PokemonSummary, index: number): Promise<void> {
+    const id = index + 1;
+
+    if (this.inventoryService.ownedIds().has(id)) {
+      await this.inventoryService.removeOwned(id);
       return;
     }
 
-    await this.inventoryService.addOwned({ ...pokemon, addedAt: new Date().toISOString() });
+    await this.inventoryService.addOwned({ ...pokemon, id, addedAt: new Date().toISOString() });
   }
 }

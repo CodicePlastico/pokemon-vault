@@ -1,28 +1,28 @@
 <section class="catalog" aria-labelledby="catalog-title">
-    <header class="catalog__header">
-        <div>
-            <p class="eyebrow">Archivio nazionale</p>
-            <h1 id="catalog-title">Catalogo carte</h1>
-        </div>
-    </header>
-
-    @if (pokemonService.catalog.isLoading()) {
-    <p class="status" role="status">Caricamento del catalogo...</p>
-    } @else if (pokemonService.catalog.error()) {
-    <p class="status status--error" role="alert">Non è stato possibile caricare il catalogo. Riprova tra poco.</p>
-    } @else {
-    <div class="catalog__grid">
-        @for (pokemon of pokemonService.catalog.value().items; track pokemon.id) {
-        <app-pokemon-card [pokemon]="pokemon" [isOwned]="inventoryService.ownedIds().has(pokemon.id)"
-            (toggleOwned)="toggleOwned(pokemon)" />
-        }
+  <header class="catalog__header">
+    <div>
+      <p class="eyebrow">Archivio nazionale</p>
+      <h1 id="catalog-title">Catalogo carte</h1>
     </div>
-    <nav class="pagination" aria-label="Paginazione catalogo">
-        <button type="button" (click)="pokemonService.previousPage()"
-            [disabled]="!pokemonService.catalog.value().hasPrevious">Precedente</button>
-        <span class="pagination__count">Pagina {{ pokemonService.currentPage() }}</span>
-        <button type="button" (click)="pokemonService.nextPage()"
-            [disabled]="!pokemonService.catalog.value().hasNext">Successivo</button>
-    </nav>
+  </header>
+
+  @if (pokemonService.catalog.isLoading()) {
+  <p class="status" role="status">Caricamento del catalogo...</p>
+  } @else if (pokemonService.catalog.error()) {
+  <p class="status status--error" role="alert">Non è stato possibile caricare il catalogo. Riprova tra poco.</p>
+  } @else {
+  <div class="catalog__grid">
+    @for (pokemon of pokemonService.catalog.value().items; track pokemon.id; let i = $index) {
+    <app-pokemon-card [pokemon]="pokemon" [isOwned]="inventoryService.ownedIds().has(pokemon.id)"
+      (toggleOwned)="toggleOwned(pokemon, i)" />
     }
+  </div>
+  <nav class="pagination" aria-label="Paginazione catalogo">
+    <button type="button" (click)="pokemonService.previousPage()"
+      [disabled]="!pokemonService.catalog.value().hasPrevious">Precedente</button>
+    <span class="pagination__count">Pagina {{ pokemonService.currentPage() }}</span>
+    <button type="button" (click)="pokemonService.nextPage()"
+      [disabled]="!pokemonService.catalog.value().hasNext">Successivo</button>
+  </nav>
+  }
 </section>
